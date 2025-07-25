@@ -18,8 +18,20 @@ function makePageForEpisodes(episodeList) {
     const imgElement = document.createElement("img")
     imgElement.src = episode.image.medium;
     episodeDiv.appendChild(imgElement);
-}
-)}
+
+    const episodeSummary = document.createElement("div");
+    episodeDiv.appendChild(episodeSummary)
+    episodeSummary.innerHTML = episode.summary;
+
+    
+})}
+const footer = document.createElement("footer");
+    footer.textContent = "Data from ";
+    const link = document.createElement("a");
+    link.href = "https://tvmaze.com";
+    link.textContent = "TVMaze.com";
+    footer.append(link);
+    document.body.append(footer);
 
 
 window.onload = setup;
