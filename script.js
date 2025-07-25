@@ -14,7 +14,10 @@ function makePageForEpisodes(episodeList) {
     const number = String(episode.number).padStart(2, "0");
     const episodeCode =`S${season}E${number}`;
     episodeDiv.textContent = `${episodeCode} - ${episode.name}`;
-        
+
+    const imgElement = document.createElement("img")
+    imgElement.src = episode.image.medium;
+    episodeDiv.appendChild(imgElement);
 }
 )}
 
