@@ -1,3 +1,26 @@
 #root {
-  color: red;
+  display: flex;
+  flex-wrap: wrap;      /* Allows wrapping to next line if needed */
+  gap: 16px;            /* Space between episode boxes */
+  padding: 16px;
+  justify-content: flex-start;
+}
+
+#root > div {
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 200px;         /* Fixed width for each episode box */
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+
+/*To ensure each picture is inside the episode box*/
+#root > div img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
 }
