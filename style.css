@@ -13,7 +13,10 @@
   width: 200px;         /* Fixed width for each episode box */
   background-color: #f9f9f9;
   border-radius: 8px;
+  font-weight: bold;
 }
+
+
 /*To ensure each picture is inside the episode box*/
 #root > div img {
   max-width: 100%;
