@@ -24,3 +24,12 @@
   display: block;
   border-radius: 4px;
 }
+/*Hover zoom effect with a subtle shadow for interactivity*/
+#root>div {
+  transition: transform 0.2s ease;
+}
+
+#root>div:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
