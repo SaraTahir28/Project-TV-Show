@@ -1,7 +1,39 @@
-//You can edit ALL of the code here
-function setup() {
-  //Get all episodes from the TVMaze API
-  allEpisodes = getAllEpisodes();
+let allEpisodes = []
+function setupFetch(){
+
+  const rootElem = document.getElementById("root");
+
+  // Show loading message
+  const loadingMessage = document.createElement("p");
+  loadingMessage.textContent = "Loading episodes...";
+  rootElem.appendChild(loadingMessage);
+
+  // Fetch episodes from the API
+  fetch("https://api.tvmaze.com/shows/82/episodes")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch episodes.");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      allEpisodes = data;
+      rootElem.removeChild(loadingMessage);
+
+      setupUI();
+    })
+    .catch((error) => {
+      rootElem.removeChild(loadingMessage);
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent =
+        "Oops! Something went wrong while loading episodes. Please try again later.";
+      errorMessage.style.color = "red";
+      rootElem.appendChild(errorMessage);
+    });
+}
+
+function setupUI() {
+
 
   //adding search box to display desired episodes
   const searchInput = document.createElement("input");
@@ -98,4 +130,4 @@ function createEpisodeDropdown(episodeList) {
   document.body.insertBefore(select, document.getElementById("root"));
 }
 
-window.onload = setup;
+window.onload = setupFetch;
