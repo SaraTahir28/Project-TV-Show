@@ -182,6 +182,23 @@ function makePageForShows(showList) {
     summary.innerHTML = show.summary;
     showDiv.appendChild(summary);
 
+    // Extra info (Genres, Status, Rating, Runtime)
+    const info = document.createElement("div");
+    info.className = "show-details"; 
+
+    const genres = show.genres && show.genres.length > 0 ? show.genres.join(", ") : "N/A";
+    const status = show.status || "N/A";
+    const rating = show.rating && show.rating.average !== null ? show.rating.average : "N/A";
+    const runtime = show.runtime !== null ? `${show.runtime} min` : "N/A";
+
+    info.innerHTML = `
+      <p><strong>Genres:</strong> ${genres}</p>
+      <p><strong>Status:</strong> ${status}</p>
+      <p><strong>Rating:</strong> ${rating}</p>
+      <p><strong>Runtime:</strong> ${runtime}</p>
+    `;
+    showDiv.appendChild(info);
+
     showDiv.style.cursor = "pointer";
     showDiv.addEventListener("click", () => {
       document.getElementById("show-select").value = show.id;
