@@ -1,3 +1,5 @@
+
+/* Root container holding shows or episodes */
 #root {
   display: flex;
   flex-wrap: wrap;      /* Allows wrapping to next line if needed */
@@ -6,6 +8,7 @@
   justify-content: flex-start;
 }
 
+/* Each show or episode card */
 #root > div {
   border: 1px solid #ccc;
   padding: 10px;
@@ -14,33 +17,71 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   font-weight: bold;
+  transition: transform 0.2s ease;
 }
 
+/* Hover zoom effect with subtle shadow */
+#root > div:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-/*To ensure each picture is inside the episode box*/
+/* Ensure each picture is inside the episode box */
 #root > div img {
   max-width: 100%;
   height: auto;
   display: block;
   border-radius: 4px;
 }
-/*Hover zoom effect with a subtle shadow for interactivity*/
-#root>div {
-  transition: transform 0.2s ease;
+
+/* Show details text color */
+.show-details {
+  color: rgb(8, 121, 49);
 }
 
-#root>div:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-input#search-box,
-select {
-  display: block;
-  margin: 20px auto;
+/* Controls container - display all controls horizontally */
+#controls {
+  display: flex;
+  flex-wrap: nowrap;           /* Keep controls in one line */
+  gap: 12px;                   /* Space between controls */
+  justify-content: center;     /* Center controls horizontally */
+  align-items: center;         /* Vertically center controls */
   padding: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;             /* Allow wrap on very narrow screens */
+}
+
+/* Each control inside #controls */
+#controls > * {
+  flex: 1 1 150px;            
+  max-width: 200px;            
+  height: 40px;                
+  box-sizing: border-box;
   font-size: 1rem;
-  width: 90%;
-  max-width: 400px;
+  padding: 0 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05)}
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Inputs, selects, and buttons inside controls */
+#controls i
+#controls input,
+#controls select,
+#controls button {
+  line-height: 40px;
+  background-color: #f0f1f1;   
+  border: 1px solid #7ead91;   
+  color: #075d38;              
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold
+}
+
+#controls input:focus,
+#controls select:focus,
+#controls button:focus {
+  background-color: #addab9;   
+  border-color: #72d1b1;       
+  outline: none;
+}
