@@ -23,8 +23,10 @@ function setupFetch() {
         a.name.toLowerCase().localeCompare(b.name.toLowerCase())
       );
       rootElem.removeChild(loadingMessage);
-      setupUI();
-      makePageForShows(allShows);
+      createControls()
+      makePageForShows(allShows)
+     
+      
     })
     .catch(() => {
       rootElem.removeChild(loadingMessage);
@@ -37,10 +39,7 @@ function setupFetch() {
     });
 }
 
-function setupUI() {
-  createControls();
-  makePageForShows(allShows);
-}
+
 
 function createControls() {
   const controls = document.createElement("div");
@@ -100,8 +99,20 @@ function createControls() {
     document.getElementById("episode-select").value = "";
   });
   controls.appendChild(searchInput);
-}
+  //creating a back button.
 
+  const backButton = document.createElement("button");
+  backButton.id = "back-button";
+  backButton.textContent = "Back to shows";
+  backButton.style.display = "none"; // hide it by default on first page load
+  controls.appendChild(backButton);
+
+  backButton.addEventListener("click", () => {
+  backButton.style.display = "none"; // hide the back button again
+  makePageForShows(allShows);         // show the shows listing
+  updateEpisodeDropdown();            // reset episodes dropdown
+});
+}
 function loadEpisodesForShow(showId) {
   const rootElem = document.getElementById("root");
 
@@ -158,6 +169,10 @@ function updateEpisodeDropdown() {
 function makePageForShows(showList) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
+  //Hide Back Button
+  const backButton = document.getElementById("back-button");
+  if (backButton) backButton.style.display = "none";
+
 
   const count = document.createElement("p");
   count.textContent = `Displaying ${showList.length} shows`;
@@ -218,6 +233,7 @@ function makePageForShows(showList) {
 function makePageForEpisodes(episodeList, totalCount) {
   const rootElem = document.getElementById("root");
   rootElem.innerHTML = "";
+  document.getElementById("back-button").style.display = "inline-block";
 
   const count = document.createElement("p");
   count.textContent = `Displaying ${episodeList.length} / ${totalCount} episodes`;
