@@ -83,7 +83,7 @@ function createControls() {
   });
   controls.appendChild(episodeSelect);
 
-  // Search box
+  // Search box for episodes.
   const searchInput = document.createElement("input");
   searchInput.type = "text";
   searchInput.id = "search-box";
@@ -99,19 +99,39 @@ function createControls() {
     document.getElementById("episode-select").value = "";
   });
   controls.appendChild(searchInput);
-  //creating a back button.
+
+  //Creating and search box for shows
+const showSearch = document.createElement("input");
+showSearch.type = "text";
+showSearch.id = "show-search-box";
+showSearch.placeholder = "Search shows...";
+showSearch.addEventListener("input", () => {
+  const term = showSearch.value.toLowerCase();
+  const filteredShows = allShows.filter((show) => {
+    const name = show.name.toLowerCase();
+    const summary = show.summary?.toLowerCase() || "";
+    const genres = show.genres.join(", ").toLowerCase();
+    return name.includes(term) || summary.includes(term) || genres.includes(term);
+  });
+
+  makePageForShows(filteredShows); 
+});
+controls.appendChild(showSearch);
+
+
 
   const backButton = document.createElement("button");
   backButton.id = "back-button";
   backButton.textContent = "Back to shows";
-  backButton.style.display = "none"; // hide it by default on first page load
-  controls.appendChild(backButton);
+  backButton.style.display = "none"; 
 
   backButton.addEventListener("click", () => {
-  backButton.style.display = "none"; // hide the back button again
-  makePageForShows(allShows);         // show the shows listing
-  updateEpisodeDropdown();            // reset episodes dropdown
+  backButton.style.display = "none"; 
+
+  makePageForShows(allShows);         
+  updateEpisodeDropdown();            
 });
+controls.appendChild(backButton);
 }
 function loadEpisodesForShow(showId) {
   const rootElem = document.getElementById("root");
