@@ -127,6 +127,8 @@ controls.appendChild(showSearch);
 
   backButton.addEventListener("click", () => {
   backButton.style.display = "none"; 
+  //resetting select a show dropdown to default.
+  document.getElementById("show-select").value = "";
 
   makePageForShows(allShows);         
   updateEpisodeDropdown();            
