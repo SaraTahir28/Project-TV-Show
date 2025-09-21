@@ -2,7 +2,7 @@
 
 let allShows = [];
 let allEpisodes = [];
-let episodeCache = {}; // Cache episodes by show ID
+let episodeCache = {}; // Cache episodes by show ID. show ID will be key for this object and value is array of episodes.
 
 window.onload = () => setupFetch();
 
@@ -19,7 +19,7 @@ function setupFetch() {
       return response.json();
     })
     .then((data) => {
-      allShows = data.sort((a, b) =>
+      allShows = data.sort((a, b) => //sorting shows alphabetically a and b are two shows being compared.
         a.name.toLowerCase().localeCompare(b.name.toLowerCase())
       );
       rootElem.removeChild(loadingMessage);
@@ -56,8 +56,8 @@ function createControls() {
     option.textContent = show.name;
     showSelect.appendChild(option);
   });
-  showSelect.addEventListener("change", (e) => {
-    const showId = e.target.value;
+  showSelect.addEventListener("change", (e) => {//when the user changes the option run this function.
+    const showId = e.target.value;// e.target is what triggered the event object and .value is the selected show
     if (showId === "") {
       allEpisodes = [];
       makePageForShows(allShows);
@@ -73,13 +73,13 @@ function createControls() {
   episodeSelect.id = "episode-select";
   episodeSelect.innerHTML = `<option value="">Select an episode</option>`;
   episodeSelect.addEventListener("change", (e) => {
-    const index = e.target.value;
-    if (index === "") {
-      makePageForEpisodes(allEpisodes, allEpisodes.length);
+    const index = e.target.value;// the index stores the selected value.
+    if (index === "") { //if user chooses the first option, default option, no episode selected.
+      makePageForEpisodes(allEpisodes, allEpisodes.length);// full list and no of episodes.
     } else {
-      makePageForEpisodes([allEpisodes[index]], allEpisodes.length);
+      makePageForEpisodes([allEpisodes[index]], allEpisodes.length);//if a specific episode is selected,it picks it at that position and displays it
     }
-    document.getElementById("search-box").value = "";
+    document.getElementById("search-box").value = "";//changing selection.clear search box so doesn't interfere with epi selection
   });
   controls.appendChild(episodeSelect);
 
@@ -89,18 +89,18 @@ function createControls() {
   searchInput.id = "search-box";
   searchInput.placeholder = "Search episodes...";
   searchInput.addEventListener("input", () => {
-    const term = searchInput.value.toLowerCase();
-    const filtered = allEpisodes.filter((ep) => {
-      const name = ep.name.toLowerCase();
-      const summary = ep.summary ? ep.summary.toLowerCase() : "";
-      return name.includes(term) || summary.includes(term);
+    const term = searchInput.value.toLowerCase();//reads current value of input and makes it case insensitive
+    const filtered = allEpisodes.filter((ep) => {//new array with filtered episodes based on match to searchterm. .filter() runs callback for every episode.
+      const name = ep.name.toLowerCase();// episode name  converted to lc for case-insensitive matching.
+      const summary = ep.summary ? ep.summary.toLowerCase() : "";//if summary exists(!null,!undefined)convert to lowcase else set to ""
+      return name.includes(term) || summary.includes(term);//filter condition to return ep if name or summary matches the term.
     });
     makePageForEpisodes(filtered, allEpisodes.length);
     document.getElementById("episode-select").value = "";
   });
   controls.appendChild(searchInput);
 
-  //Creating and search box for shows
+  //Creating  search box for shows
 const showSearch = document.createElement("input");
 showSearch.type = "text";
 showSearch.id = "show-search-box";
@@ -137,30 +137,30 @@ controls.appendChild(backButton);
 }
 function loadEpisodesForShow(showId) {
   const rootElem = document.getElementById("root");
-
-  if (episodeCache[showId]) {
-    allEpisodes = episodeCache[showId];
-    updateEpisodeDisplay();
-    return;
+//using cached data if available.
+  if (episodeCache[showId]) { //checks cache for the selected show.
+    allEpisodes = episodeCache[showId];//if cache exists it gets assigned to our global allEpisodes variable.
+    updateEpisodeDisplay();//calling to render episodes and update the episode dropdown
+    return;// early return because we don't need any request to API for fetching data 
   }
-
+// visual feedback that the app is fetching episodes.
   const loading = document.createElement("p");
   loading.id = "episodes-loading";
   loading.textContent = "Loading episodes...";
   rootElem.appendChild(loading);
 
-  fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+  fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)//network request for the given show.
     .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch episodes.");
+      if (!response.ok) throw new Error("Failed to fetch episodes.");//if !response throws an error to be handled in catch()
       return response.json();
     })
-    .then((data) => {
-      episodeCache[showId] = data;
-      allEpisodes = data;
-      document.getElementById("episodes-loading").remove();
-      updateEpisodeDisplay();
+    .then((data) => {   //after JSON is available
+      episodeCache[showId] = data;//stores fetched data into episodeCache[showId] where cache gets populated, so that if next time we need to get data for the same show its stored in cache.
+      allEpisodes = data; //setting allEpisodes to that data
+      document.getElementById("episodes-loading").remove();//get loading element by id and removes it
+      updateEpisodeDisplay(); //calls the function to render episodes.
     })
-    .catch(() => {
+    .catch(() => { //any error occurs (network, non-OK status, JSON parse error), the .catch runs:
       document.getElementById("episodes-loading").remove();
       const error = document.createElement("p");
       error.textContent = "Error loading episodes. Try again later.";
@@ -170,8 +170,8 @@ function loadEpisodesForShow(showId) {
 }
 
 function updateEpisodeDisplay() {
-  updateEpisodeDropdown();
-  document.getElementById("search-box").value = "";
+  updateEpisodeDropdown();//creating dropdown for episodes bases on season and episode no and name.
+  document.getElementById("search-box").value = "";//sets episodes search box to "", to reset it.
   makePageForEpisodes(allEpisodes, allEpisodes.length);
 }
 
