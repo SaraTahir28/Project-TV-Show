@@ -35,7 +35,6 @@ function setupFetch() {
       error.style.color = "red";
       rootElem.appendChild(error);
       allShows = [];
-      setupUI();
     });
 }
 
